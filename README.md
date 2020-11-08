@@ -20,3 +20,36 @@ This project is a rework of the current flow for constant journalling I currentl
 - Public version so people (Kate) can see my schedule
 - Git hook which adds a commit block in the day entry
 - A link can be an entry
+
+## Backend
+
+Supabase for realtime db and authentication
+
+### Datastructures
+
+```elixir
+Journal # top level container, per user level
+Day # container for the day
+    |> Date
+|> Entry # entry is a simple timestamped comment
+    |> Timestamp
+    |> Body
+    |> Location
+|> Todos # simple list of todos
+    |> Body
+    |> Completed at # datetime | null
+|> Info
+    |> Weather # fetched from API
+    |> Time spent writing # integrate wakatime
+Entry =
+| Text # User created Markdown text
+| Link # Hyperlink to web page / file
+| Commit # Auto gen / manual from a git commit hash, project, message
+| Event # Can trigger notifications - text message or push. Could be the mechanism for adding ahead of time
+```
+
+## Frontend
+
+### Routing
+
+Decided to spin up my own routing package for this project since the needs aren't great
