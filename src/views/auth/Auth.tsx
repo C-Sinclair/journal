@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { useCurrentUser } from '../../auth'
 import { useRouter } from '../../routing'
 import { supabase } from '../../supabase'
@@ -54,13 +54,13 @@ export const AuthView = () => {
     }
   }
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = () => {
     if (current === 'Login') {
       login(fields)
     } else {
       register(fields)
     }
-  }, [current])
+  }
 
   return (
     <form onSubmit={onSubmit}>
@@ -89,7 +89,7 @@ export const AuthView = () => {
           />
         </>
       )}
-      <button type="submit">
+      <button type="submit" >
         {current === 'Login' ? 'Login' : 'Register'}
       </button>
       <button>
