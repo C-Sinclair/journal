@@ -6,6 +6,8 @@ export const parameters = {
 
 export const decorators = [
   (Story) => (
-    <Providers>{Story}</Providers>
+    <Providers>
+      <Story />
+    </Providers>
   )
 ]

@@ -1,24 +1,29 @@
 import React from 'react'
-import { Story } from '@storybook/react/types-6-0';
+import { Story, Meta } from '@storybook/react/types-6-0';
 import { AuthView } from './Auth'
-import { IRouteContext, RouteContext } from '../../routing';
+import { RouteProvider } from '../../routing';
 
 interface ViewProps {
-  route?: IRouteContext
+  initialPath?: string
 }
 
 const View: Story<ViewProps> = (args) => (
-  <RouteContext.Provider value={args.route as IRouteContext}>
+  <RouteProvider {...args}>
     <AuthView />
-  </RouteContext.Provider>
+  </RouteProvider>
 )
 
 export const LoginView = View.bind({})
 LoginView.args = {
-  route: ['Login', () => { }] as IRouteContext
+  initialPath: 'login'
 }
 
 export const RegisterView = View.bind({})
 RegisterView.args = {
-  route: ['Register', () => { }] as IRouteContext
+  initialPath: 'register'
 }
+
+export default {
+  title: 'Authentication',
+  component: AuthView
+} as Meta
