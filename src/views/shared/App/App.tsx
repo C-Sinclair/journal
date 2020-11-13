@@ -1,7 +1,8 @@
 import React from 'react';
-import { PageRoute, Router } from '../../../routing';
+import { PageRoute, Router, useRouter } from '../../../routing';
 import { AuthView } from '../../auth/Auth';
 import { DayView } from '../../day/Day';
+import { Header } from './App.components'
 
 const routes: PageRoute[] = [{
   page: 'Login',
@@ -18,11 +19,13 @@ const routes: PageRoute[] = [{
 }]
 
 export const App = () => {
+  const { navigate } = useRouter()
+  const onLogoClick = () => navigate('Today')
   return (
     <main>
-      <header>
-        <h1>Journal</h1>
-      </header>
+      <Header>
+        <h1 onClick={onLogoClick}>Journal</h1>
+      </Header>
       <Router routes={routes} />
     </main>
   )

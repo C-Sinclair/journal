@@ -24,3 +24,16 @@ export const dateFromRoute = (route: Route, pathname: string): Date => {
   }
   throw new Error("No current date is parsable from the route")
 }
+
+export const routeToUrl = (route: Route, date?: Date): string => {
+  switch (route) {
+    case 'Login':
+      return '/login'
+    case 'Register':
+      return '/register'
+    case 'Specific Day':
+      return `/${date?.getDay()}-${date?.getMonth()}-${date?.getFullYear()}`
+    case 'Today':
+      return '/'
+  }
+}

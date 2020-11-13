@@ -1,13 +1,13 @@
 import { useContext } from "react"
 import { RouteContext } from "./context"
 import type { Route } from "."
+import { routeToUrl } from "./util"
 
 export const useRouter = () => {
   const [page, setPage] = useContext(RouteContext)
 
-  const navigate = (route: Route) => {
-    // TODO push nav change state 
-    // window.history.replaceState({}, routeToTitle, routeToUrl)
+  const navigate = (route: Route, date?: Date) => {
+    window.history.replaceState({}, route, routeToUrl(route, date))
     setPage(route)
   }
 
