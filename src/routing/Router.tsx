@@ -4,6 +4,7 @@ import { useRouter } from './useRouter'
 
 interface RouteProps {
   showing?: boolean
+  [key: string]: any
 }
 
 export interface PageRoute {

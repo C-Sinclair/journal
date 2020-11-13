@@ -6,7 +6,7 @@ export type Route =
 
 export { RouteContext, RouteProvider } from './context'
 export { useRouter } from './useRouter'
-export { pathToRoute } from './util'
+export { pathToRoute, dateFromRoute } from './util'
 export { Router } from './Router'
 
 export type { PageRoute } from './Router'
