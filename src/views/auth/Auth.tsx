@@ -1,7 +1,8 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react'
 import { useCurrentUser } from '../../auth'
 import { useRouter } from '../../routing'
 import { supabase } from '../../supabase'
+import { Input, Form, Label, SubmitButton, SwitchViewButton, Title, Root } from './Auth.components'
 
 type InputChange = ChangeEvent<HTMLInputElement>
 
@@ -19,7 +20,7 @@ const initialState: LoginFields | RegisterFields = {
   confirmPassword: ""
 }
 
-export const AuthView = () => {
+export const AuthView: FC = () => {
   const { navigate, current } = useRouter()
   const [, setUser] = useCurrentUser()
 
@@ -53,7 +54,8 @@ export const AuthView = () => {
     }
   }
 
-  const onSubmit = () => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (current === 'Login') {
       login(fields)
     } else {
@@ -64,26 +66,27 @@ export const AuthView = () => {
   const switchViews = () => navigate(current === 'Login' ? 'Register' : 'Login')
 
   useEffect(() => {
-    const emailValid = fields.email.length > 0
-    const passwordValid = fields.password.length > 0
-    const confirmPasswordValid = current === 'Login' ? true : fields.password == fields.confirmPassword
-    const valid = emailValid && passwordValid && confirmPasswordValid
-    console.log(`confm ${valid}`, fields)
-    setFieldsValid(valid)
+    setFieldsValid(
+      fields.email.length > 0 &&
+      fields.password.length > 0 &&
+      (current === 'Login' ? true : fields.password === fields.confirmPassword)
+    )
   }, [fields, current])
 
   return (
-    <form onSubmit={onSubmit}>
-      <label htmlFor="email-input">Email</label>
-      <input
+    <Root>
+    <Title>Go ahead and log yourself back in...</Title>
+    <Form onSubmit={onSubmit}>
+      <Label htmlFor="email-input">Email</Label>
+      <Input
         type="text"
         name="email"
         id="email-input"
         value={fields.email}
         onChange={onChange}
       />
-      <label htmlFor="password-input">Password</label>
-      <input
+      <Label htmlFor="password-input">Password</Label>
+      <Input
         type="password"
         name="password"
         id="password-input"
@@ -92,8 +95,8 @@ export const AuthView = () => {
       />
       { current === 'Register' && (
         <>
-          <label htmlFor="confirm-password-input">Confirm Password</label>
-          <input
+          <Label htmlFor="confirm-password-input">Confirm Password</Label>
+          <Input
             type="password"
             name="confirmPassword"
             id="confirm-password-input"
@@ -102,20 +105,21 @@ export const AuthView = () => {
           />
         </>
       )}
-      <button
+      <SubmitButton
         type="submit"
         disabled={!fieldsValid}
         data-testid="submit-button"
       >
         {current === 'Login' ? 'Login' : 'Register'}
-      </button>
-      <button
+      </SubmitButton>
+      <SwitchViewButton
         type="button"
         data-testid="switch-view-button"
         onClick={switchViews}
       >
         {current === 'Login' ? 'Register' : 'Login'}
-      </button>
-    </form>
+      </SwitchViewButton>
+    </Form>
+    </Root>
   )
 }

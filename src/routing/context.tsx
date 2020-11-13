@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction, createContext, FC, useState, useMemo, useEffect } from "react";
+import React, { Dispatch, SetStateAction, createContext, FC, useState, useMemo } from "react";
 import type { Route } from '.'
+import { useCurrentUser } from "../auth";
 import { pathToRoute } from "./util";
 
 export type IRouteContext = [Route, Dispatch<SetStateAction<Route>>]
@@ -12,7 +13,8 @@ interface RouteProviderProps {
 
 export const RouteProvider: FC<RouteProviderProps> = ({ children, initialPath }) => {
   const path = initialPath || window.location.pathname.slice(1).toLowerCase()
-  const [page, setPage] = useState(pathToRoute(path))
+  const [user] = useCurrentUser()
+  const [page, setPage] = useState(pathToRoute(path, !!user))
   const route = useMemo<IRouteContext>(() => ([page, setPage]), [page, setPage])
 
   return (

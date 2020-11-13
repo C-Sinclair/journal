@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-export const DayView = () => {
+export const DayView: FC = () => {
   return (
     <div />
   )
