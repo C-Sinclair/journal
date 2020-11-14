@@ -17,7 +17,7 @@ interface RouterProps {
 }
 
 const RouteContainer: FC<RouteProps> = ({ children, showing }) => showing ? (
-  <div>
+  <div className="route">
     {children}
   </div>
 ) : null

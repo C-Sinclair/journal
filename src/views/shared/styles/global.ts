@@ -8,10 +8,10 @@ export const GlobalStyles = createGlobalStyle`
     color: #fff;
     font-family: 'News Cycle', sans-serif;
   }
-  header {
-    padding-left: 10px;
-  }
   h1 {
     font-family: 'Satisfy', cursive;
+  }
+  *::-webkit-scrollbar {
+    display: none;
   }
 `
