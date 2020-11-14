@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState, KeyboardEvent } from 'react'
 import { useCurrentUser } from '../../../auth'
 import { supabase } from '../../../supabase'
 import { Day } from '../Day.hooks'
-import { InputContainer, Input, Button } from './Input.components'
+import { InputContainer, Input, Add } from './Input.components'
 
 interface TodoInputProps {
   day: Day
@@ -47,7 +47,7 @@ export const TodoInput = ({ day }: TodoInputProps) => {
         onChange={onChange}
         onKeyDown={onKeydown}
       /> 
-      <Button onClick={submit}>+</Button>
+      <Add onClick={submit} />
     </InputContainer>
   )
 }

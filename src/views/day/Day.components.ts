@@ -1,13 +1,26 @@
 import styled from "styled-components";
+import { CaretIcon } from "../shared/icons/Caret/Caret";
 
 export const Root = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-export const Title = styled.h4`
-  text-align: center;
-  margin-top: 20px;
+export const Title = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  h4 {
+    text-align: center;
+    margin: 0;
+  }
+  svg {
+    fill: #eee;
+    padding: 8px;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 `
 
 export const DateContainer = styled.div`
@@ -44,6 +57,10 @@ export const EntriesContainer = styled.div`
     margin: 0px;
     margin-bottom: 10px;
   }
+
+  @media (max-width: 650px) {
+    margin-top: 20px;
+  }
 `
 
 export const Content = styled.div`
@@ -64,3 +81,11 @@ export const Content = styled.div`
     width: 370px;
   }
 `
+
+export const PreviousDay = styled(CaretIcon)(({ theme }) => `
+
+`)
+
+export const NextDay = styled(CaretIcon)(({ theme }) => `
+  transform: rotate(180deg);
+`)

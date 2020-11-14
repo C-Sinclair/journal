@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { supabase } from "../../../supabase"
-import { Day, useDay } from '../Day.hooks'
+import { useDay } from '../Day.hooks'
 import { EntryContext } from "./Entry.context"
 
 export interface Entry {
@@ -15,8 +15,11 @@ export const useEntries = () => {
   const { day } = useDay()
   const [entries, setEntries] = useContext(EntryContext)
 
-  const fetchEntriesForDay = async (day: Day) => {
+  const fetchEntries = async () => {
     try {
+      if (!day) {
+        throw new Error("No current day selected")
+      }
       const { data, error } = await supabase
         .from<Entry>('Entries')
         .select('id, timestamp, body, location')
@@ -30,23 +33,8 @@ export const useEntries = () => {
     }
   }
 
-  useEffect(() => {
-    const sub = supabase
-      .from('Todos')
-      .on('*', () => {
-        if (day) {
-          fetchEntriesForDay(day)
-        }
-      })
-      .subscribe()
-    return () => {
-      sub.unsubscribe()
-    }
-  // eslint-disable-next-line
-  }, [])
-
   return {
     entries,
-    fetchEntriesForDay
+    fetchEntries
   }
 }

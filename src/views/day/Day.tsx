@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
 import moment from 'moment'
-import { Root, Title, DateString, DateContainer, SubDate, TodoContainer, EntriesContainer, Content } from './Day.components'
+import { Root, Title, DateString, DateContainer, SubDate, TodoContainer, EntriesContainer, Content, PreviousDay, NextDay } from './Day.components'
 import { useDay } from './Day.hooks'
 import { TodoView } from './todo/Todo'
 import { EntryView } from './entry/Entry'
@@ -22,27 +22,35 @@ const subdate = (date: Date) => {
 
 export const DayView: FC<DayViewProps> = () => {
   const { day } = useDay()
-  const { entries, fetchEntriesForDay } = useEntries()
-  const { todos, fetchTodosForDay } = useTodos()
+  const { entries, fetchEntries } = useEntries()
+  const { todos, fetchTodos } = useTodos()
 
   useEffect(() => {
     if (day) {
-      fetchEntriesForDay(day)
-      fetchTodosForDay(day)
+      fetchEntries()
+      fetchTodos()
     }
   // eslint-disable-next-line
   }, [day])
 
+  const onPreviousDayClick = () => {}
+  const onNextDayClick = () => {}
+
   return (
     <Root>
-      <Title>{day?.title || "Loading"}</Title>
+      <Title>
+        <PreviousDay onClick={onPreviousDayClick} />
+        <h4>{day?.title || "Loading"}</h4>
+        <NextDay onClick={onNextDayClick} />
+      </Title>
+
       {day && (
         <>
         <DateContainer>
           <DateString>{niceFormatDate(day.date)}</DateString>
           <SubDate>{subdate(day.date)}</SubDate>
         </DateContainer>
-        <EntryTextarea day={day} />
+        <EntryTextarea />
         <Content>
           <EntriesContainer>
             <h4>Entries</h4>

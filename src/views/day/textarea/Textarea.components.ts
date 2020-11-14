@@ -9,16 +9,6 @@ export const Textarea = styled.textarea(({ theme }) => `
   min-width: 360px;
   max-width: 360px;
   width: 360px;
-  background: #111;
-  border: none;
-  padding: 5px;
-  border-radius: 5px;
-  color: ${theme.colours.white};
-  font-family: 'News Cycle', sans-serif;
-  :focus {
-    outline: none;
-    border: 1px solid ${theme.colours.green};
-  }
 `)
 
 interface TAButtonProps {

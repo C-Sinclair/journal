@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { AddIcon } from '../../shared/icons/Add/Add'
 
 export const InputContainer = styled.div`
   margin-top: 15px;
@@ -14,10 +15,7 @@ export const Input = styled.input(({ type = "text", theme }) => `
   color: ${theme.colours.white};
 `)
 
-export const Button = styled.button(({ theme }) => `
-  border-radius: 25px;
-  background: ${theme.colours.darkest};
-  color: ${theme.colours.green};
+export const Add = styled(AddIcon)(({ theme }) => `
   cursor: pointer;
-  outline: none;
+  margin-top: 4px;
 `)

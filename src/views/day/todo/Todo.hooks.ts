@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { supabase } from "../../../supabase"
 import { Day, useDay } from "../Day.hooks"
 import { TodoContext } from "./Todo.context"
@@ -14,8 +14,11 @@ export const useTodos = () => {
   const [todos, setTodos] = useContext(TodoContext)
   const { day }  = useDay()
 
-  const fetchTodosForDay = async (day: Day) => {
+  const fetchTodos = async () => {
     try {
+      if (!day) {
+        throw new Error("No current day")
+      }
       const { data, error } = await supabase
         .from<Todo>('Todos')
         .select('id, body, completed')
@@ -29,23 +32,8 @@ export const useTodos = () => {
     }
   }
 
-  useEffect(() => {
-    const sub = supabase
-      .from('Todos')
-      .on('*', () => {
-        if (day) {
-          fetchTodosForDay(day)
-        }
-      })
-      .subscribe()
-    return () => {
-      sub.unsubscribe()
-    }
-  // eslint-disable-next-line
-  }, [])
-
   return {
     todos,
-    fetchTodosForDay
+    fetchTodos
   }
 }

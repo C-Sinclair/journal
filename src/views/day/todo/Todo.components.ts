@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { DeleteIcon } from '../../shared/Delete'
+import { DeleteIcon } from '../../shared/icons/Delete/Delete'
 
 export const Delete = styled(DeleteIcon)`
   cursor: pointer;
@@ -31,3 +31,24 @@ export const TodoBody = styled.p`
   padding-left: 10px;
   max-width: 400px;
 `
+
+export const TodoInputContainer = styled.div(({ theme }) => `
+  position: relative;
+
+  textarea {
+    font-size: 1em;
+    margin: 10px;
+    padding: 3px 10px;
+    width: 220px;
+  }
+
+  button {
+    position: absolute;
+    bottom: 0px;
+    right: 5px;
+    padding: 4px 12px;
+    color: ${theme.colours.white};
+    background: ${theme.colours.green};
+    border: none;
+  }
+`)
