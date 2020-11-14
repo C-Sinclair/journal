@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { TodoViewRoot, Checkbox, TodoBody } from './Todo.components'
-import { Todo, useCompleteTodo } from './Todo.hooks'
+import { supabase } from '../../../supabase'
+import { TodoViewRoot, Checkbox, TodoBody, Delete } from './Todo.components'
+import { Todo } from './Todo.hooks'
 
 interface TodoViewProps {
   todo: Todo
@@ -9,11 +10,19 @@ interface TodoViewProps {
 export const TodoView = ({ todo }: TodoViewProps) => {
   const [checked, setChecked] = useState(!!todo.completed)
 
-  const toggleCompleted = useCompleteTodo()
-
-  const toggle = () => {
+  const toggle = async () => {
     setChecked(!checked)
-    toggleCompleted(todo)
+    await supabase
+      .from('Todos')
+      .update({ completed: todo.completed ? null : new Date() })
+      .match({ id: todo.id })
+  }
+
+  const onDeleteClick = async () => {
+    await supabase
+      .from('Todos')
+      .delete()
+      .match({ id: todo.id })
   }
 
   return (
@@ -24,6 +33,7 @@ export const TodoView = ({ todo }: TodoViewProps) => {
         onChange={toggle} 
       />
       <TodoBody>{todo.body}</TodoBody>
+      <Delete onClick={onDeleteClick} />
     </TodoViewRoot>
   )
 }

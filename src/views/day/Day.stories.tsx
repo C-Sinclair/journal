@@ -19,7 +19,7 @@ const fakeUser: User = {
 const View: Story<ViewProps> = (args) => (
   <AuthProvider loggedIn={fakeUser}>
     <RouteProvider {...args}>
-      <DayView pathname={args.pathname} />
+      <DayView />
     </RouteProvider>
   </AuthProvider>
 )

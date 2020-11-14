@@ -5,7 +5,7 @@ export const TextareaRoot = styled.div`
   position: relative;
 `
 
-export const Textarea = styled.textarea`
+export const Textarea = styled.textarea(({ theme }) => `
   min-width: 360px;
   max-width: 360px;
   width: 360px;
@@ -13,22 +13,22 @@ export const Textarea = styled.textarea`
   border: none;
   padding: 5px;
   border-radius: 5px;
-  color: #fff;
+  color: ${theme.colours.white};
   font-family: 'News Cycle', sans-serif;
   :focus {
     outline: none;
-    border: 1px solid #0d5f0d;
+    border: 1px solid ${theme.colours.green};
   }
-`
+`)
 
 interface TAButtonProps {
   focused?: boolean
 }
 
-export const Button = styled.button<TAButtonProps>`
+export const Button = styled.button<TAButtonProps>(({ theme, focused }) => `
   border-radius: 25px;
-  color: #fff;
-  background: ${props => props.focused ? "#0d5f0d" : "#100e0e"};
+  color: ${theme.colours.white};
+  background: ${focused ? theme.colours.green : theme.colours.darker};
   cursor: pointer;
   border: none;
   outline: none;
@@ -37,4 +37,4 @@ export const Button = styled.button<TAButtonProps>`
   bottom: 0;
   right: -10px;
   transition: all 0.4s ease;
-`
+`)

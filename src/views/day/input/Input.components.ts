@@ -5,20 +5,19 @@ export const InputContainer = styled.div`
   display: flex;
 `
 
-export const Input = styled.input(({ type = "text" }) => `
-  background: #111;
+export const Input = styled.input(({ type = "text", theme }) => `
+  background: ${theme.colours.darkest};
   border: none;
   padding: 5px;
   border-radius: 5px;
   margin-right: 5px;
-  color: #fff;
-  width: 200px;
+  color: ${theme.colours.white};
 `)
 
-export const Button = styled.button`
+export const Button = styled.button(({ theme }) => `
   border-radius: 25px;
-  background: #111;
-  color: green;
+  background: ${theme.colours.darkest};
+  color: ${theme.colours.green};
   cursor: pointer;
   outline: none;
-`
+`)

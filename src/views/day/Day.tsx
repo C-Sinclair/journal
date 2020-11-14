@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import moment from 'moment'
 import { Root, Title, DateString, DateContainer, SubDate, TodoContainer, EntriesContainer, Content } from './Day.components'
 import { useDay } from './Day.hooks'
@@ -6,10 +6,10 @@ import { TodoView } from './todo/Todo'
 import { EntryView } from './entry/Entry'
 import { TodoInput } from './input/Input'
 import { EntryTextarea } from './textarea/Textarea'
+import { useEntries } from './entry/Entry.hooks'
+import { useTodos } from './todo/Todo.hooks'
 
-interface DayViewProps {
-  pathname?: string
-}
+interface DayViewProps {}
 
 const niceFormatDate = (date: Date) => moment(date).format("Do MMMM YYYY")
 
@@ -20,10 +20,18 @@ const subdate = (date: Date) => {
   }
 }
 
-export const DayView: FC<DayViewProps> = ({ 
-  pathname = window.location.pathname 
-}) => {
-  const { day, entries, todos } = useDay(pathname)
+export const DayView: FC<DayViewProps> = () => {
+  const { day } = useDay()
+  const { entries, fetchEntriesForDay } = useEntries()
+  const { todos, fetchTodosForDay } = useTodos()
+
+  useEffect(() => {
+    if (day) {
+      fetchEntriesForDay(day)
+      fetchTodosForDay(day)
+    }
+  // eslint-disable-next-line
+  }, [day])
 
   return (
     <Root>

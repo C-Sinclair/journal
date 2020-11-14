@@ -4,7 +4,7 @@ import type { Route } from "."
 import { routeToUrl } from "./util"
 
 export const useRouter = () => {
-  const [page, setPage] = useContext(RouteContext)
+  const [page, setPage, pathname] = useContext(RouteContext)
 
   const navigate = (route: Route, date?: Date) => {
     window.history.replaceState({}, route, routeToUrl(route, date))
@@ -13,6 +13,7 @@ export const useRouter = () => {
 
   return {
     current: page,
-    navigate
+    navigate,
+    pathname,
   }
 }

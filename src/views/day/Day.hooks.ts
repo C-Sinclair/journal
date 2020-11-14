@@ -1,10 +1,9 @@
 import moment from 'moment'
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect } from "react"
 import { useCurrentUser } from '../../auth'
 import { dateFromRoute, useRouter } from "../../routing"
 import { supabase } from "../../supabase"
-import { useEntries } from './entry/Entry.hooks'
-import { useTodos } from './todo/Todo.hooks'
+import { DayContext } from './Day.context'
 
 export interface Day {
   id: string
@@ -16,13 +15,10 @@ const isDateToday = (date: Date) => moment(date).diff(moment(), 'days') === 0
 
 const dbDate = (date: Date) => moment(date).format("YYYY-M-D")
 
-export const useDay = (pathname: string) => {
-  const { current } = useRouter()
+export const useDay = () => {
+  const { current, pathname } = useRouter()
   const [user] = useCurrentUser()
-  const { entries, fetchEntriesForDay } = useEntries()
-  const { todos, fetchTodosForDay } = useTodos()
-  
-  const [day, setDay] = useState<Day | null>(null)
+  const [day, setDay] = useContext(DayContext)
   
   const create = useCallback(async (date: Date) => {
     try {
@@ -48,7 +44,7 @@ export const useDay = (pathname: string) => {
     } catch(err) {
       console.error(err)
     }
-  }, [user])
+  }, [user, setDay])
 
   const fetch = useCallback(async (date: Date) => {
     try {
@@ -64,30 +60,20 @@ export const useDay = (pathname: string) => {
         console.log("No day record found, creating one")
         await create(date)
       } else {
-        console.log("Fetched", data)
         setDay(!isToday ? data[0] : { ...data[0], title: "Today" })
       }
     } catch(err) {
       console.error(err)
     }
-  }, [create])
+  }, [create, setDay])
 
   useEffect(() => {
     const date = dateFromRoute(current, pathname)
     fetch(date)
   }, [current, fetch, pathname])
 
-  useEffect(() => {
-    if (day) {
-      fetchEntriesForDay(day)
-      fetchTodosForDay(day)
-    }
-  // eslint-disable-next-line
-  }, [day])
-
   return {
     day,
-    entries,
-    todos,
+    setDay,
   }
 }

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { supabase } from "../../../supabase"
-import { Day } from "../Day.hooks"
+import { Day, useDay } from "../Day.hooks"
+import { TodoContext } from "./Todo.context"
 
 export interface Todo {
   id: string
@@ -10,12 +11,11 @@ export interface Todo {
 }
 
 export const useTodos = () => {
-  const [todos, setTodos] = useState<Todo[]>([])
-  const [day, setDay] = useState<Day>()
+  const [todos, setTodos] = useContext(TodoContext)
+  const { day }  = useDay()
 
   const fetchTodosForDay = async (day: Day) => {
     try {
-      setDay(day)
       const { data, error } = await supabase
         .from<Todo>('Todos')
         .select('id, body, completed')
@@ -48,15 +48,4 @@ export const useTodos = () => {
     todos,
     fetchTodosForDay
   }
-}
-
-export const useCompleteTodo = () => {
-  const toggle = ({ id, completed }: Todo) => async () => {
-    await supabase
-      .from('Todos')
-      .update({ completed: completed ? null : new Date() })
-      .match({ id })
-  }
-
-  return toggle
 }
