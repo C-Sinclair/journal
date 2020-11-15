@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { supabase } from "../../../supabase"
-import { useDay } from '../Day.hooks'
+import { useDayState } from '../Day.hooks'
 import { EntryContext } from "./Entry.context"
 
 export interface Entry {
@@ -12,7 +12,7 @@ export interface Entry {
 }
 
 export const useEntries = () => {
-  const { day } = useDay()
+  const day = useDayState()
   const [entries, setEntries] = useContext(EntryContext)
 
   const fetchEntries = async () => {

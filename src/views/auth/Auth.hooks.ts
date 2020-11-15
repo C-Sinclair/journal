@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useCurrentUser } from '../../auth'
-import { useRouter } from '../../routing'
+import { useRouter } from '../../routing/Routing.hooks'
 import { supabase } from '../../supabase'
 
 interface LoginFields {
@@ -30,7 +30,7 @@ export const useAuthFields = () => {
       if (error) throw error
       if (!user) throw new Error("No user found!")
       setUser(user)
-      navigate('Today')
+      navigate({ name: 'Today', date: new Date() })
     } catch (err) {
       console.error(err)
     }
@@ -40,7 +40,7 @@ export const useAuthFields = () => {
     try {
       const { error } = await supabase.auth.signUp(fields)
       if (error) throw error
-      navigate('Login')
+      navigate({ name: 'Login' })
     } catch (err) {
       console.error(err)
     }
@@ -50,7 +50,7 @@ export const useAuthFields = () => {
     setFieldsValid(
       fields.email.length > 0 &&
       fields.password.length > 0 &&
-      (current === 'Login' ? true : fields.password === fields.confirmPassword)
+      (current.name === 'Login' ? true : fields.password === fields.confirmPassword)
     )
   }, [fields, current])
 

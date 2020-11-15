@@ -1,5 +1,6 @@
 import React from 'react';
-import { PageRoute, Router, useRouter } from '../../../routing';
+import { PageRoute, Router } from '../../../routing/Routing';
+import { useRouter } from '../../../routing/Routing.hooks';
 import { AuthView } from '../../auth/Auth';
 import { DayView } from '../../day/Day';
 import { Header } from './App.components'
@@ -20,7 +21,7 @@ const routes: PageRoute[] = [{
 
 export const App = () => {
   const { navigate } = useRouter()
-  const onLogoClick = () => navigate('Today')
+  const onLogoClick = () => navigate({ name: 'Today', date: new Date() })
   return (
     <main>
       <Header>

@@ -5,7 +5,7 @@ import { Entry } from './Entry.hooks'
 import { EntryViewRoot, Timestamp, TextareaContainer } from './Entry.components'
 import { useEditable } from '../../shared/Editable/Editable.hooks'
 import { useCurrentUser } from '../../../auth'
-import { useDay } from '../Day.hooks'
+import { useDayState } from '../Day.hooks'
 import { supabase } from '../../../supabase'
 
 interface EntryViewProps {
@@ -25,7 +25,7 @@ export const EntryView = ({ entry }: EntryViewProps) => {
   const [body, setBody] = useState(entry.body)
   const { ref, editing, setEditing } = useEditable()
   const [user] = useCurrentUser()
-  const { day } = useDay()
+  const day = useDayState()
 
   const onClick = () => setEditing(true)
 

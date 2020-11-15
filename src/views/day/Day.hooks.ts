@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { useCallback, useContext, useEffect } from "react"
 import { useCurrentUser } from '../../auth'
-import { dateFromRoute, useRouter } from "../../routing"
+import { useRouter } from "../../routing/Routing.hooks"
 import { supabase } from "../../supabase"
 import { DayContext } from './Day.context'
 
@@ -16,7 +16,7 @@ const isDateToday = (date: Date) => moment(date).diff(moment(), 'days') === 0
 const dbDate = (date: Date) => moment(date).format("YYYY-M-D")
 
 export const useDay = () => {
-  const { current, pathname } = useRouter()
+  const { current } = useRouter()
   const [user] = useCurrentUser()
   const [day, setDay] = useContext(DayContext)
   
@@ -30,6 +30,7 @@ export const useDay = () => {
         .from('Days')
         .insert({
           title: moment(date).format('dddd'),
+          date,
           user_id: user?.id
         })
         .single()
@@ -57,7 +58,7 @@ export const useDay = () => {
         throw error
       }
       if (!data || data.length === 0) {
-        console.log("No day record found, creating one")
+        console.log("No day record found, creating one", date)
         await create(date)
       } else {
         setDay(!isToday ? data[0] : { ...data[0], title: "Today" })
@@ -68,12 +69,17 @@ export const useDay = () => {
   }, [create, setDay])
 
   useEffect(() => {
-    const date = dateFromRoute(current, pathname)
-    fetch(date)
-  }, [current, fetch, pathname])
+    if (current.name === 'Today' || current.name === 'Specific Day') {
+      fetch(current.date)
+    }
+  }, [current, fetch])
 
   return {
     day,
-    setDay,
   }
+}
+
+export const useDayState = () => {
+  const [day] = useContext(DayContext)
+  return day
 }

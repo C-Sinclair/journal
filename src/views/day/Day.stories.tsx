@@ -3,7 +3,7 @@ import { User } from "@supabase/gotrue-js/dist/main/lib/types";
 import { Story, Meta } from '@storybook/react/types-6-0';
 import { DayView } from './Day'
 import { DATE } from './Day.test.values'
-import { RouteProvider } from '../../routing';
+import { RouteProvider } from '../../routing/Routing.context';
 import { AuthProvider } from '../../auth';
 
 interface ViewProps {

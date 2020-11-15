@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, FormEvent } from 'react'
-import { useRouter } from '../../routing'
+import { useRouter } from '../../routing/Routing.hooks'
 import { Input, Form, Label, SubmitButton, SwitchViewButton, Title, Root } from './Auth.components'
 import { useAuthFields } from './Auth.hooks'
 
@@ -16,19 +16,19 @@ export const AuthView: FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (current === 'Login') {
+    if (current.name === 'Login') {
       login(fields)
     } else {
       register(fields)
     }
   }
 
-  const switchViews = () => navigate(current === 'Login' ? 'Register' : 'Login')
+  const switchViews = () => navigate({ name: current.name === 'Login' ? 'Register' : 'Login' })
 
   return (
     <Root>
     <Title>
-      {current === 'Login' 
+      {current.name === 'Login' 
       ? "Go ahead and log yourself back in..."
       : "Register yourself for an account..."   
       }
@@ -50,7 +50,7 @@ export const AuthView: FC = () => {
         value={fields.password}
         onChange={onChange}
       />
-      { current === 'Register' && (
+      { current.name === 'Register' && (
         <>
           <Label htmlFor="confirm-password-input">Confirm Password</Label>
           <Input
@@ -67,14 +67,14 @@ export const AuthView: FC = () => {
         disabled={!fieldsValid}
         data-testid="submit-button"
       >
-        {current === 'Login' ? 'Login' : 'Register'}
+        {current.name === 'Login' ? 'Login' : 'Register'}
       </SubmitButton>
       <SwitchViewButton
         type="button"
         data-testid="switch-view-button"
         onClick={switchViews}
       >
-        {current === 'Login' ? 'Register' : 'Login'}
+        {current.name === 'Login' ? 'Register' : 'Login'}
       </SwitchViewButton>
     </Form>
     </Root>

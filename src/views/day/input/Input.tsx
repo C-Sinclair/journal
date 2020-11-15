@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState, KeyboardEvent } from 'react'
 import { useCurrentUser } from '../../../auth'
 import { supabase } from '../../../supabase'
 import { Day } from '../Day.hooks'
+import { useTodos } from '../todo/Todo.hooks'
 import { InputContainer, Input, Add } from './Input.components'
 
 interface TodoInputProps {
@@ -11,6 +12,7 @@ interface TodoInputProps {
 export const TodoInput = ({ day }: TodoInputProps) => {
   const [value, setValue] = useState("")
   const [user] = useCurrentUser()
+  const { fetchTodos } = useTodos()
 
   const create = async (value: string) => {
     try {
@@ -25,6 +27,7 @@ export const TodoInput = ({ day }: TodoInputProps) => {
           day_id: day.id,
         })
       setValue("")
+      fetchTodos()
     } catch (error) {
       console.error(error)
     }

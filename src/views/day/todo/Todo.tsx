@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { supabase } from '../../../supabase'
 import { useEditable } from '../../shared/Editable/Editable.hooks'
 import { TodoViewRoot, Checkbox, TodoBody, Delete, TodoInputContainer } from './Todo.components'

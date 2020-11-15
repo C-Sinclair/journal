@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { supabase } from "../../../supabase"
-import { Day, useDay } from "../Day.hooks"
+import { useDayState } from "../Day.hooks"
 import { TodoContext } from "./Todo.context"
 
 export interface Todo {
@@ -12,7 +12,7 @@ export interface Todo {
 
 export const useTodos = () => {
   const [todos, setTodos] = useContext(TodoContext)
-  const { day }  = useDay()
+  const day  = useDayState()
 
   const fetchTodos = async () => {
     try {

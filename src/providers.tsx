@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { AuthProvider } from './auth'
-import { RouteProvider } from './routing'
+import { RouteProvider } from './routing/Routing.context'
 import { GlobalStyles, ThemeProvider } from './views'
 import { DayProvider } from './views/day/Day.context'
 import { EntryProvider } from './views/day/entry/Entry.context'

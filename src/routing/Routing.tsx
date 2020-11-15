@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import { Route } from '.'
-import { useRouter } from './useRouter'
+import { useRouter } from './Routing.hooks'
 
 interface RouteProps {
   showing?: boolean
@@ -8,7 +7,7 @@ interface RouteProps {
 }
 
 export interface PageRoute {
-  page: Route
+  page: 'Login' | 'Register' | 'Today' | 'Specific Day'
   component: FC<RouteProps>
 }
 
@@ -30,7 +29,7 @@ export const Router: FC<RouterProps> = ({ routes }) => {
   return (
     <>
       {routes.map(({ page, component: Component }, i) => (
-        <RouteContainer showing={current === page} key={i}>
+        <RouteContainer showing={current.name === page} key={i}>
           <Component />
         </RouteContainer>
       ))}

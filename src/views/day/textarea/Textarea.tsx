@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FC } from 'react'
 import { useCurrentUser } from '../../../auth'
 import { supabase } from '../../../supabase'
-import { useDay } from '../Day.hooks'
+import { useDayState } from '../Day.hooks'
 import { useEntries } from '../entry/Entry.hooks'
 import { TextareaRoot, Textarea, Button } from './Textarea.components'
 
@@ -9,7 +9,7 @@ export const EntryTextarea: FC = (props) => {
   const [body, setBody] = useState("")
   const [focused, setFocused] = useState(false)
   const [user] = useCurrentUser()
-  const { day } = useDay()
+  const day = useDayState()
   const { fetchEntries } = useEntries()
 
   const onChange = ({ target }: ChangeEvent<HTMLTextAreaElement>) => setBody(target.value)
